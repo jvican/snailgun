@@ -93,8 +93,9 @@ object BuildImplementation {
     Keys.triggeredMessage := Watched.clearWhenTriggered,
     Keys.resolvers := {
       val oldResolvers = Keys.resolvers.value
-      val scalacenterResolver = Resolver.bintrayRepo("jvican", "releases")
-      (oldResolvers :+ scalacenterResolver).distinct
+      val jvicanResolver = Resolver.bintrayRepo("jvican", "releases")
+      val scalacenterResolver = Resolver.bintrayRepo("scalacenter", "releases")
+      (oldResolvers :+ scalacenterResolver :+ jvicanResolver).distinct
     },
     ReleaseEarlyKeys.releaseEarlyWith := {
       // Only tag releases go directly to Maven Central, the rest go to bintray!
