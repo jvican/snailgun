@@ -21,7 +21,7 @@ the Nailgun protocol that intends to be extensible, fast and support
 **both** JVM and Native clients.
 
 * It provides a simple API that for any JVM-based programming language.
-* It can be compiled to a Native binary that is 10x faster than the default Python nailgun client through [GraalVM's Native Image](https://www.graalvm.org/docs/reference-manual/aot-compilation/).
+* It can be compiled to a Native binary that is 10x faster than the Python client through [GraalVM's Native Image](https://www.graalvm.org/docs/reference-manual/aot-compilation/).
 
 Sailgun's major use cases are:
 
