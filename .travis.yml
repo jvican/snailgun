@@ -22,6 +22,7 @@ env:
   - JABBA_HOME=$HOME/.jabba
 
 before_install:
+  - wget -qO- https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh
   - $JABBA_HOME/bin/jabba install graalvm@19.0.2
   - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
       export JAVA_HOME="$JABBA_HOME/jdk/graalvm@19.0.2" && export PATH="$JAVA_HOME/bin:$PATH" && java -version;
