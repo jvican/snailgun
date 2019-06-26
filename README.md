@@ -8,16 +8,16 @@ dependency*.
 
 ## Motivation :ocean:
 
-The Nailgun protocol is useful to communicate lightweight, short-lived
-clients with long-running, high-performance servers.
+Nailgun is a useful protocol to communicate lightweight, short-lived clients
+with long-running servers.
 
-Developers have traditionally used the Nailgun protocol to communicate
-native-like clients with services running on the JVM but there are valid use
-cases to connect JVM clients with Nailgun servers.
+Developers have traditionally used Nailgun to communicate native-like clients
+with services running on the JVM. However, there are many use cases that
+require JVM clients connect to Nailgun servers and those are currently unsupported.
 
-Sailgun is an alternative to the [default Python and C
-implementations](https://github.com/facebook/nailgun/tree/master/nailgun-client)
-of the Nailgun protocol that intends to be extensible, fast and support
+Sailgun is an alternative implementation to the [default Python and C
+clients](https://github.com/facebook/nailgun/tree/master/nailgun-client) of
+the Nailgun protocol that intends to be extensible, fast and support
 **both** JVM and Native clients.
 
 * It provides a simple API that for any JVM-based programming language.
@@ -28,5 +28,5 @@ Sailgun's major use cases are:
 1. You need a client that talks the Nailgun protocol but you need to customize it.
 1. You need to communicate with a Nailgun server implemented in another language.
 1. You need to communicate a JVM client with a Nailgun server on the JVM. For
-   example, if the server cannot be compiled to native or supports concurrent
-   clients.
+   example, if the server cannot be compiled to native or synchronizes
+   concurrent clients.
