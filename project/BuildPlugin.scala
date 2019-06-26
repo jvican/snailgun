@@ -5,12 +5,23 @@ import java.io.File
 import bintray.BintrayKeys
 import ch.epfl.scala.sbt.release.Feedback
 import com.typesafe.sbt.SbtPgp.{autoImport => Pgp}
-import sbt.{AutoPlugin, Def, Keys, PluginTrigger, Plugins, State, Task, ThisBuild}
+import sbt.{
+  AutoPlugin,
+  Def,
+  Keys,
+  PluginTrigger,
+  Plugins,
+  State,
+  Task,
+  ThisBuild
+}
 import sbt.io.IO
 import sbt.io.syntax.fileToRichFile
 import sbt.librarymanagement.syntax.stringToOrganization
 import sbtdynver.GitDescribeOutput
-import ch.epfl.scala.sbt.release.ReleaseEarlyPlugin.{autoImport => ReleaseEarlyKeys}
+import ch.epfl.scala.sbt.release.ReleaseEarlyPlugin.{
+  autoImport => ReleaseEarlyKeys
+}
 
 object BuildPlugin extends AutoPlugin {
   import sbt.plugins.JvmPlugin
@@ -38,7 +49,9 @@ object BuildKeys {
   def inProject(ref: Reference)(ss: Seq[Def.Setting[_]]): Seq[Def.Setting[_]] =
     sbt.inScope(sbt.ThisScope.in(project = ref))(ss)
 
-  def inProjectRefs(refs: Seq[Reference])(ss: Def.Setting[_]*): Seq[Def.Setting[_]] =
+  def inProjectRefs(
+      refs: Seq[Reference]
+  )(ss: Def.Setting[_]*): Seq[Def.Setting[_]] =
     refs.flatMap(inProject(_)(ss))
 
   def inCompileAndTest(ss: Def.Setting[_]*): Seq[Def.Setting[_]] =
@@ -53,7 +66,8 @@ object BuildKeys {
       Dependencies.pprint % Test,
       Dependencies.nailgun % Test,
       Dependencies.difflib % Test,
-      Dependencies.nailgunExamples % Test,
+      Dependencies.slf4jApi % Test,
+      Dependencies.nailgunExamples % Test
     )
   )
 
@@ -106,7 +120,9 @@ object BuildImplementation {
     Keys.autoAPIMappings := true,
     Keys.publishMavenStyle := true,
     Keys.homepage := Some(ThisRepo),
-    Keys.licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+    Keys.licenses := Seq(
+      "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
+    ),
     Keys.developers := List(
       GitHubDev("jvican", "Jorge Vicente Cantero", "jorge@vican.me")
     )
@@ -117,7 +133,13 @@ object BuildImplementation {
     BintrayKeys.bintrayPackage := "sailgun",
     BintrayKeys.bintrayRepository := "releases",
     // Add some metadata that is useful to see in every on-merge bintray release
-    BintrayKeys.bintrayPackageLabels := List("client", "nailgun", "server", "scala", "tooling"),
+    BintrayKeys.bintrayPackageLabels := List(
+      "client",
+      "nailgun",
+      "server",
+      "scala",
+      "tooling"
+    ),
     ReleaseEarlyKeys.releaseEarlyPublish := BuildDefaults.releaseEarlyPublish.value,
     Keys.scalacOptions := reasonableCompileOptions,
     // Legal requirement: license and notice files must be in the published jar
@@ -172,14 +194,17 @@ object BuildImplementation {
     }
 
     /**
-     * This setting figures out whether the version is a snapshot or not and configures
-     * the source and doc artifacts that are published by the build.
-     *
-     * Snapshot is a term with no clear definition. In this code, a snapshot is a revision
-     * that is dirty, e.g. has time metadata in its representation. In those cases, the
-     * build will not publish doc and source artifacts by any of the publishing actions.
-     */
-    def publishDocAndSourceArtifact(info: Option[GitDescribeOutput], version: String): Boolean = {
+      * This setting figures out whether the version is a snapshot or not and configures
+      * the source and doc artifacts that are published by the build.
+      *
+      * Snapshot is a term with no clear definition. In this code, a snapshot is a revision
+      * that is dirty, e.g. has time metadata in its representation. In those cases, the
+      * build will not publish doc and source artifacts by any of the publishing actions.
+      */
+    def publishDocAndSourceArtifact(
+        info: Option[GitDescribeOutput],
+        version: String
+    ): Boolean = {
       val isStable = info.map(_.dirtySuffix.value.isEmpty)
       !isStable.exists(stable => !stable || version.endsWith("-SNAPSHOT"))
     }

@@ -10,8 +10,7 @@ lazy val sailgun = project
     fork in run in Compile := true,
     libraryDependencies ++= Seq(
       Dependencies.jna,
-      Dependencies.jnaPlatform,
-      Dependencies.slf4jApi
+      Dependencies.jnaPlatform
     ),
     graalVMNativeImageOptions ++= List(
       "--no-fallback",
