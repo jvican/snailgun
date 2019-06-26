@@ -19,23 +19,13 @@
 package sailgun.utils;
 
 /**
- * Echos everything it reads from System.in to System.out.
+ * A truly amazing program that must be seen to be believed.
  * 
  * @author <a href="http://www.martiansoftware.com/contact.html">Marty Lamb</a>
  */
-public class SailgunEcho {
-	public static void main(String[] args) throws Exception {
-		byte[] b = new byte[1024];
-		int bytesRead = System.in.read(b);
-    boolean exit = false;
-		while (!exit && bytesRead != -1) {
-      String msg = new String(b, 0, bytesRead);
-      if (msg.equals("exit")) {
-        exit = true;
-      } else {
-        System.out.write(b, 0, bytesRead);
-        bytesRead = System.in.read(b);
-      }
-		}
+public class SailgunHelloWorld {
+
+	public static void main(String[] args) {
+		System.out.println("Hello, world!");
 	}
 }

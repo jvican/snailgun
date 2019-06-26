@@ -7,6 +7,8 @@ import sailgun.protocol.Defaults
 import sailgun.protocol.Streams
 import sailgun.utils.ExitNail
 import sailgun.utils.SailgunHeartbeat
+import sailgun.utils.SailgunHelloWorld
+import sailgun.utils.SailgunEcho
 
 import java.io.PrintStream
 import java.nio.file.{Files, Path, Paths}
@@ -31,14 +33,7 @@ import scala.concurrent.duration.FiniteDuration
 import com.martiansoftware.nailgun.NGListeningAddress
 import com.martiansoftware.nailgun.NGConstants
 import com.martiansoftware.nailgun.Alias
-import com.martiansoftware.nailgun.examples.Echo
-import com.martiansoftware.nailgun.examples.HelloWorld
-import com.martiansoftware.nailgun.examples.SailgunEcho
-import com.martiansoftware.nailgun.{
-  SailgunThreadLocalInputStream,
-  NGServer,
-  ThreadLocalPrintStream
-}
+import com.martiansoftware.nailgun.{SailgunThreadLocalInputStream, NGServer, ThreadLocalPrintStream}
 
 class SailgunBaseSuite extends BaseSuite {
   protected final val TestPort = 8313
@@ -189,7 +184,7 @@ class SailgunBaseSuite extends BaseSuite {
       new Alias(
         "hello-world",
         "Run `HelloWorld` naigun server example.",
-        classOf[HelloWorld]
+        classOf[SailgunHelloWorld]
       )
     )
     aliases.addAlias(
@@ -254,9 +249,9 @@ class SailgunBaseSuite extends BaseSuite {
         }
       } catch {
         case t: TimeoutException =>
-        logger.dump(oldErr);
-        stop.set(true)
-        throw t
+          logger.dump(oldErr);
+          stop.set(true)
+          throw t
       }
     }
   }

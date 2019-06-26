@@ -5,23 +5,12 @@ import java.io.File
 import bintray.BintrayKeys
 import ch.epfl.scala.sbt.release.Feedback
 import com.typesafe.sbt.SbtPgp.{autoImport => Pgp}
-import sbt.{
-  AutoPlugin,
-  Def,
-  Keys,
-  PluginTrigger,
-  Plugins,
-  State,
-  Task,
-  ThisBuild
-}
+import sbt.{AutoPlugin, Def, Keys, PluginTrigger, Plugins, State, Task, ThisBuild}
 import sbt.io.IO
 import sbt.io.syntax.fileToRichFile
 import sbt.librarymanagement.syntax.stringToOrganization
 import sbtdynver.GitDescribeOutput
-import ch.epfl.scala.sbt.release.ReleaseEarlyPlugin.{
-  autoImport => ReleaseEarlyKeys
-}
+import ch.epfl.scala.sbt.release.ReleaseEarlyPlugin.{autoImport => ReleaseEarlyKeys}
 
 object BuildPlugin extends AutoPlugin {
   import sbt.plugins.JvmPlugin
@@ -66,8 +55,7 @@ object BuildKeys {
       Dependencies.pprint % Test,
       Dependencies.nailgun % Test,
       Dependencies.difflib % Test,
-      Dependencies.slf4jApi % Test,
-      Dependencies.nailgunExamples % Test
+      Dependencies.slf4jApi % Test
     )
   )
 
