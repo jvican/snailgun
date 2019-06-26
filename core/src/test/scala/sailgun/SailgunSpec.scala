@@ -25,10 +25,13 @@ object SailgunSpec extends SailgunBaseSuite {
     val args = Array("2000")
     val code = inputs.run("heartbeat", args)
     assert(code == 0)
-    // In 2000ms, we can receive 3 'H'
+    // Compute how many 'H's we should expect
+    val counterForH =
+      inputs.logger.getMessagesAt(Some("debug")).count(_.contains("Got client heartbeat"))
+    assert(counterForH > 0)
     assertNoDiff(
       inputs.generateResult,
-      "HHH"
+      List.fill(counterForH)("H").mkString
     )
   }
 

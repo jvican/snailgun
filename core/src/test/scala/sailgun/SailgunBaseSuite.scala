@@ -244,16 +244,19 @@ class SailgunBaseSuite extends BaseSuite {
       in: InputStream = System.in
   )(op: TestInputs => Unit): Unit = {
     val logger = new RecordingLogger()
+    val stop = new AtomicBoolean(false)
     test(testName) {
       try {
-        val stop = new AtomicBoolean(false)
         val out = new ByteArrayOutputStream()
         val streams = Streams(in, out, out)
         withRunningServer(streams, logger) { client =>
           op(TestInputs(streams, logger, stop, client, out))
         }
       } catch {
-        case t: TimeoutException => logger.dump(oldErr); throw t
+        case t: TimeoutException =>
+        logger.dump(oldErr);
+        stop.set(true)
+        throw t
       }
     }
   }

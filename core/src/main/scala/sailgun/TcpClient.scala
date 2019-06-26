@@ -52,23 +52,4 @@ object TcpClient {
   def apply(host: String, port: Int): TcpClient = {
     new TcpClient(InetAddress.getByName(host), port)
   }
-
-  def main(args: Array[String]): Unit = {
-    val client = TcpClient(Defaults.Host, Defaults.Port)
-    val streams = Streams(System.in, System.out, System.err)
-    val logger = new SailgunLogger("tcp-logger", System.out, isVerbose = false)
-
-    val code = client.run(
-      "about",
-      new Array(0),
-      Defaults.cwd,
-      Defaults.env,
-      streams,
-      logger,
-      new AtomicBoolean(false)
-    )
-
-    logger.debug(s"Return code is $code")
-    System.exit(code)
-  }
 }

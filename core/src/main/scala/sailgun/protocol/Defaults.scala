@@ -5,7 +5,7 @@ import java.nio.file.Paths
 object Defaults {
   val Version = "0.9.3"
   val Host = "127.0.0.1"
-  val Port = 8313
+  val Port = 2113
 
   val env: Map[String, String] = {
     import scala.collection.JavaConverters._
