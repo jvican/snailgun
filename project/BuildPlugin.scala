@@ -104,6 +104,10 @@ object BuildImplementation {
       if (isOnlyTag.getOrElse(false)) ReleaseEarlyKeys.SonatypePublisher
       else ReleaseEarlyKeys.BintrayPublisher
     },
+    Keys.scmInfo :=
+      Some(
+        sbt.ScmInfo(url("https://github.com/jvican/sailgun"), "git@github.com:jvican/sailgun.git")
+      ),
     BintrayKeys.bintrayOrganization := Some("jvican"),
     Keys.startYear := Some(2019),
     Keys.autoAPIMappings := true,

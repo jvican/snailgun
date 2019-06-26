@@ -33,3 +33,7 @@ lazy val `sailgun-cli` = project
 lazy val sailgun = project
   .in(file("."))
   .aggregate(`sailgun-core`, `sailgun-cli`)
+  .settings(
+    releaseEarly := { () },
+    skip in publish := true
+  )
