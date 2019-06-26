@@ -5,9 +5,6 @@ Copyright 2019-2020 Scala Center (EPFL)
 
 ## Nailgun
 
-[Repository website](https://github.com/scalacenter/nailgun/). Fork from
-[facebook/nailgun](https://github.com/facebook/nailgun).
-
-Licensed under the [Apache 2.0 license](https://github.com/scalacenter/nailgun/blob/master/LICENSE.txt).
-
-It includes minor modifications to the core algorithms and Nailgun protocol to suit Bloop's needs.
+There are some modified tests that preseve LICENSE header from the
+[facebook/nailgun](https://github.com/facebook/nailgun) project, which is
+licensed under the [Apache 2.0 license](https://github.com/facebook/nailgun/blob/master/LICENSE.txt).
