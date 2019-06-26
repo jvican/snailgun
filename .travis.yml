@@ -23,12 +23,12 @@ env:
 
 before_install:
   - $JABBA_HOME/bin/jabba install graalvm@19.0.2
-    if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
+  - if [[ "$TRAVIS_OS_NAME" = "linux" ]]; then
       export JAVA_HOME="$JABBA_HOME/jdk/graalvm@19.0.2" && export PATH="$JAVA_HOME/bin:$PATH" && java -version;
     elif [[ "$TRAVIS_OS_NAME" = "osx" ]]; then
       export JAVA_HOME="$JABBA_HOME/jdk/graalvm@19.0.2/Contents/Home" && export PATH="$JAVA_HOME/bin:$PATH" && java -version;
     fi
-    gu install native-image
+  - gu install native-image
 
 jobs:
   include:
