@@ -1,7 +1,7 @@
 import build.BuildKeys._
 import build.Dependencies
 
-lazy val `sailgun-core` = project
+lazy val `snailgun-core` = project
   .in(file("core"))
   .settings(testSuiteSettings)
   .settings(
@@ -13,9 +13,9 @@ lazy val `sailgun-core` = project
     )
   )
 
-lazy val `sailgun-cli` = project
+lazy val `snailgun-cli` = project
   .in(file("cli"))
-  .dependsOn(`sailgun-core`)
+  .dependsOn(`snailgun-core`)
   .enablePlugins(GraalVMNativeImagePlugin)
   .settings(testSuiteSettings)
   .settings(
@@ -30,9 +30,9 @@ lazy val `sailgun-cli` = project
     )
   )
 
-lazy val sailgun = project
+lazy val snailgun = project
   .in(file("."))
-  .aggregate(`sailgun-core`, `sailgun-cli`)
+  .aggregate(`snailgun-core`, `snailgun-cli`)
   .settings(
     releaseEarly := { () },
     skip in publish := true

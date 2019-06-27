@@ -85,7 +85,7 @@ object BuildImplementation {
     }
   )
 
-  private final val ThisRepo = GitHub("jvican", "sailgun")
+  private final val ThisRepo = GitHub("jvican", "snailgun")
   final val buildSettings: Seq[Def.Setting[_]] = Seq(
     Keys.organization := "me.vican.jorge",
     Keys.updateOptions := Keys.updateOptions.value.withCachedResolution(true),
@@ -106,7 +106,7 @@ object BuildImplementation {
     },
     Keys.scmInfo :=
       Some(
-        sbt.ScmInfo(url("https://github.com/jvican/sailgun"), "git@github.com:jvican/sailgun.git")
+        sbt.ScmInfo(url("https://github.com/jvican/snailgun"), "git@github.com:jvican/snailgun.git")
       ),
     BintrayKeys.bintrayOrganization := Some("jvican"),
     Keys.startYear := Some(2019),
@@ -123,7 +123,7 @@ object BuildImplementation {
 
   import sbt.{CrossVersion, compilerPlugin}
   final val projectSettings: Seq[Def.Setting[_]] = Seq(
-    BintrayKeys.bintrayPackage := "sailgun",
+    BintrayKeys.bintrayPackage := "snailgun",
     BintrayKeys.bintrayRepository := "releases",
     // Add some metadata that is useful to see in every on-merge bintray release
     BintrayKeys.bintrayPackageLabels := List(

@@ -1,4 +1,4 @@
-val `sailgun-build` = project
+val `snailgun-build` = project
   .in(file("."))
   .settings(
     scalaVersion := "2.12.8",

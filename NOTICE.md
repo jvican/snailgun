@@ -1,4 +1,4 @@
-# Sailgun
+# Snailgun
 
 Copyright 2019-2020 Jorge Vicente Cantero
 Copyright 2019-2020 Scala Center (EPFL)
