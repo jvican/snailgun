@@ -9,6 +9,7 @@ import sailgun.utils.ExitNail
 import sailgun.utils.SailgunHeartbeat
 import sailgun.utils.SailgunHelloWorld
 import sailgun.utils.SailgunEcho
+import sailgun.utils.SailgunArgEcho
 
 import java.io.PrintStream
 import java.nio.file.{Files, Path, Paths}
@@ -103,6 +104,7 @@ class SailgunBaseSuite extends BaseSuite {
 
       t.foreach(t => logger.trace(t))
 
+      logger.debug("Exiting server...")
       val code = client.run(
         "exit",
         new Array(0),
@@ -164,7 +166,6 @@ class SailgunBaseSuite extends BaseSuite {
     val heartbeatMs = NGConstants.HEARTBEAT_TIMEOUT_MILLIS.toInt
     val server =
       new NGServer(address, poolSize, heartbeatMs, in, out, err, javaLogger)
-    server.setAllowNailsByClassName(false)
     val aliases = server.getAliasManager
     aliases.addAlias(
       new Alias(
@@ -228,7 +229,7 @@ class SailgunBaseSuite extends BaseSuite {
     def run(cmd: String, args: Array[String]): Int =
       client.run(cmd, args, Defaults.cwd, Defaults.env, streams, logger, stop)
 
-    def generateResult: String = {
+    lazy val output: String = {
       new String(out.toByteArray(), StandardCharsets.UTF_8)
     }
   }

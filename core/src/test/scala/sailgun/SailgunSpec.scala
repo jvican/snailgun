@@ -16,7 +16,7 @@ object SailgunSpec extends SailgunBaseSuite {
     val code = inputs.run("hello-world", new Array(0))
     assert(code == 0)
     assertNoDiff(
-      inputs.generateResult,
+      inputs.output,
       "Hello, world!"
     )
   }
@@ -30,8 +30,17 @@ object SailgunSpec extends SailgunBaseSuite {
       inputs.logger.getMessagesAt(Some("debug")).count(_.contains("Got client heartbeat"))
     assert(counterForH > 0)
     assertNoDiff(
-      inputs.generateResult,
+      inputs.output,
       List.fill(counterForH)("H").mkString
+    )
+  }
+
+  testSailgun("coursier echo works") { inputs =>
+    val code = inputs.run("sailgun.utils.SailgunArgEcho", Array("foo"))
+    assert(code == 0)
+    assertNoDiff(
+      inputs.output,
+      "foo"
     )
   }
 
@@ -51,7 +60,7 @@ object SailgunSpec extends SailgunBaseSuite {
     val code = inputs.run("echo", new Array(0))
     assert(code == 0)
     assertNoDiff(
-      inputs.generateResult,
+      inputs.output,
       "Hello, world!I am echo"
     )
   }
@@ -66,7 +75,7 @@ object SailgunSpec extends SailgunBaseSuite {
     // Ignore return code, all we care is that we return
     inputs.run("echo", new Array(0))
     assertNoDiff(
-      inputs.generateResult,
+      inputs.output,
       ""
     )
   }

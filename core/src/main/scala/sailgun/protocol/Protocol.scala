@@ -87,15 +87,15 @@ class Protocol(
 
     try {
       // Send client command's environment to Nailgun server
-      logger.debug("Sending arguments to Nailgun server")
+      logger.debug(s"Sending arguments '${cmdArgs.mkString(" ")}' to Nailgun server")
       cmdArgs.foreach(sendChunk(ChunkTypes.Argument, _, out))
       logger.debug("Sending environment variables to Nailgun server")
       allEnvironment.foreach(
         kv => sendChunk(ChunkTypes.Environment, s"${kv._1}=${kv._2}", out)
       )
-      logger.debug("Sending current working directory to Nailgun server")
+      logger.debug(s"Sending working directory $absoluteCwd to Nailgun server")
       sendChunk(ChunkTypes.Directory, absoluteCwd, out)
-      logger.debug("Sending command to Nailgun server")
+      logger.debug(s"Sending command to $cmd Nailgun server")
       sendChunk(ChunkTypes.Command, cmd, out)
       logger.debug("Finished sending command information to Nailgun server")
 
@@ -110,8 +110,13 @@ class Protocol(
           case Action.Exit(code) =>
             exitCode.compareAndSet(-1, code)
           case Action.ExitForcefully(error) =>
-            exitCode.compareAndSet(-1, 1)
-            printException(error)
+            if (cmd == "ng-stop") {
+              // In previous versions to 1.0.0, ng-stop can throw EOFException
+              exitCode.compareAndSet(-1, 0)
+            } else {
+              exitCode.compareAndSet(-1, 1)
+              printException(error)
+            }
           case Action.Print(bytes, out) => out.write(bytes)
           case Action.SendStdin         => sendStdinSemaphore.release()
         }

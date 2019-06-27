@@ -42,7 +42,10 @@ class TcpClient(addr: InetAddress, port: Int) extends Client {
           }
         }
       } catch {
-        case _: SocketException => ()
+        case t: SocketException =>
+          logger.debug("Tracing an ignored socket exception...")
+          logger.trace(t)
+          ()
       }
     }
   }
