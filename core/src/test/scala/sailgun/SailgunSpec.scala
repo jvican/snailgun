@@ -44,6 +44,12 @@ object SailgunSpec extends SailgunBaseSuite {
     )
   }
 
+  testSailgun("closing stdout in nail doesn't affect client") { inputs =>
+    val code = inputs.run("sailgun.utils.SailgunStatusCode", Array("0"))
+    assert(code == 0)
+    assertNoDiff(inputs.output, "")
+  }
+
   val echoStdout = new PipedOutputStream()
   val echoStdin = new PipedInputStream(echoStdout)
   testSailgun("echo works (via stdin)", echoStdin) { inputs =>
