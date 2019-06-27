@@ -9,7 +9,7 @@ The goal of snailgun is to be a flexible, cross-platform, zero-dependency
 Nailgun client that can be used both as a *binary* and as a *library
 dependency*.
 
-## Motivation 💭
+## Motivation
 
 Nailgun is a useful protocol to communicate lightweight, short-lived clients
 with long-running servers.
