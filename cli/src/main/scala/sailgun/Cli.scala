@@ -54,7 +54,7 @@ abstract class Cli(in: InputStream, out: PrintStream, err: PrintStream) {
         .arg[String]("<cmd>...")
         .optional()
         .unbounded()
-        .action((arg, params) => params.copy(args = arg +: params.args))
+        .action((arg, params) => params.copy(args = params.args ++ List(arg)))
         .text("The command and arguments for the Nailgun server")
       OParser
         .sequence(
