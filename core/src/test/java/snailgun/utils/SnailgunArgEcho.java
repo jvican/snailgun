@@ -2,7 +2,6 @@ package snailgun.utils;
 
 public class SnailgunArgEcho {
     public static void main(String[] args) {
-        /*
         boolean isFirst = true;
         boolean printNewLine = true;
 
@@ -27,7 +26,5 @@ public class SnailgunArgEcho {
         if (printNewLine) {
             System.out.println();
         }
-        */
-            System.out.println("foo");
     }
 }
