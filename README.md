@@ -1,6 +1,6 @@
 # snailgun :snail: :gun:
 
-[![Build Status](https://travis-ci.org/jvican/snailgun.svg?branch=master)](https://travis-ci.org/jvican/snailgun)
+[![Build Status](https://travis-ci.org/jvican/sailgun.svg?branch=master)](https://travis-ci.org/jvican/sailgun)
 ![Maven Central](https://img.shields.io/maven-central/v/me.vican.jorge/snailgun-core.svg)
 
 Snailgun is a [Nailgun](https://github.com/facebook/nailgun) client written in Scala.
