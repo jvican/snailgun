@@ -45,7 +45,8 @@ class Protocol(
     cwd: Path,
     environment: Map[String, String],
     logger: Logger,
-    stopFurtherProcessing: AtomicBoolean
+    stopFurtherProcessing: AtomicBoolean,
+    interactiveSession: Boolean
 ) {
   private val absoluteCwd = cwd.toAbsolutePath().toString
   private val exitCode: AtomicInteger = new AtomicInteger(-1)
@@ -60,7 +61,7 @@ class Protocol(
     def interactive(fd: Int): String =
       Integer.toString(Terminal.hasTerminalAttached(fd))
     def skipIfNative(f: => String) =
-      if (System.getProperty("java.vm.name") == "Substrate VM") "0" else f
+      if (!interactiveSession || System.getProperty("java.vm.name") == "Substrate VM") "0" else f
     environment ++ Map(
       "NAILGUN_FILESEPARATOR" -> NailgunFileSeparator,
       "NAILGUN_PATHSEPARATOR" -> NailgunPathSeparator,

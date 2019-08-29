@@ -116,7 +116,8 @@ class SnailgunBaseSuite extends BaseSuite {
         Defaults.env,
         streams,
         logger,
-        new AtomicBoolean(false)
+        new AtomicBoolean(false),
+        true
       )
 
       // Exit on Windows can sometimes return non-successful code even if exit succeeded
@@ -231,7 +232,7 @@ class SnailgunBaseSuite extends BaseSuite {
       private val out: ByteArrayOutputStream
   ) {
     def run(cmd: String, args: Array[String]): Int =
-      client.run(cmd, args, Defaults.cwd, Defaults.env, streams, logger, stop)
+      client.run(cmd, args, Defaults.cwd, Defaults.env, streams, logger, stop, true)
 
     lazy val output: String = {
       new String(out.toByteArray(), StandardCharsets.UTF_8)

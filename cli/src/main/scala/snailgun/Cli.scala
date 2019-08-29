@@ -90,7 +90,7 @@ abstract class Cli(in: InputStream, out: PrintStream, err: PrintStream) {
           val logger = new SnailgunLogger("log", out, isVerbose = params.verbose)
           try {
             val code =
-              client.run(cmd, cmdArgs, Defaults.cwd, Defaults.env, streams, logger, noCancel)
+              client.run(cmd, cmdArgs, Defaults.cwd, Defaults.env, streams, logger, noCancel, true)
             logger.debug(s"Return code is $code")
             exit(code)
           } catch {

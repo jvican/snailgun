@@ -15,7 +15,8 @@ abstract class Client {
       env: Map[String, String],
       streams: Streams,
       logger: Logger,
-      stop: AtomicBoolean
+      stop: AtomicBoolean,
+      interactiveSession: Boolean
   ): Int
 
   def run(
@@ -23,6 +24,7 @@ abstract class Client {
       args: Array[String],
       streams: Streams,
       logger: Logger,
-      stop: AtomicBoolean
-  ): Int = run(cmd, args, Defaults.cwd, Defaults.env, streams, logger, stop)
+      stop: AtomicBoolean,
+      interactiveSession: Boolean
+  ): Int = run(cmd, args, Defaults.cwd, Defaults.env, streams, logger, stop, interactiveSession)
 }

@@ -23,13 +23,14 @@ class TcpClient(addr: InetAddress, port: Int) extends Client {
       env: Map[String, String],
       streams: Streams,
       logger: Logger,
-      stop: AtomicBoolean
+      stop: AtomicBoolean,
+      interactiveSession: Boolean
   ): Int = {
     val socket = new Socket(addr, port)
     try {
       val in = socket.getInputStream()
       val out = socket.getOutputStream()
-      val protocol = new Protocol(streams, cwd, env, logger, stop)
+      val protocol = new Protocol(streams, cwd, env, logger, stop, interactiveSession)
       protocol.sendCommand(cmd, args, out, in)
     } finally {
       try {
