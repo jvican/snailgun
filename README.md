@@ -3,11 +3,9 @@
 [![Build Status](https://travis-ci.org/jvican/snailgun.svg?branch=master)](https://travis-ci.org/jvican/snailgun)
 ![Maven Central](https://img.shields.io/maven-central/v/me.vican.jorge/snailgun-core_2.12.svg)
 
-Snailgun is a [Nailgun](https://github.com/facebook/nailgun) client written in Scala.
-
-The goal of snailgun is to be a flexible, cross-platform, zero-dependency
-Nailgun client that can be used both as a *binary* and as a *library
-dependency*.
+Snailgun is a [Nailgun](https://github.com/facebook/nailgun) client written in Scala that can
+be used as a library and/or compile to native. Snailgun aims to be a flexible, cross-platform
+and zero-dependency nailgun client you can embed in any tool.
 
 ## Motivation
 
