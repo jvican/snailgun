@@ -190,7 +190,7 @@ class Protocol(
         case ChunkTypes.Exit.toByteRepr =>
           val bytes = readPayload(bytesToRead, in)
           val code =
-            Integer.parseInt(new String(bytes, StandardCharsets.US_ASCII))
+            Integer.parseInt(new String(bytes, StandardCharsets.US_ASCII).trim)
           Action.Exit(code)
         case _ =>
           val error = new RuntimeException(s"Unexpected chunk type: $chunkType")
