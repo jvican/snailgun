@@ -34,6 +34,6 @@ before_install:
 jobs:
   include:
     - script: |
-        sbt "test" "snailgun-cli/graalvm-native-image:packageBin"
+        sbt "+test" "snailgun-cli/graalvm-native-image:packageBin"
       if: type = pull_request OR (type = push AND branch = master)
       name: "Run tests and test GraalVM Native Image"
