@@ -90,6 +90,7 @@ object BuildImplementation {
     Keys.organization := "me.vican.jorge",
     Keys.updateOptions := Keys.updateOptions.value.withCachedResolution(true),
     Keys.scalaVersion := Dependencies.Scala212Version,
+    Keys.crossScalaVersions := Seq(Dependencies.Scala212Version, Dependencies.Scala213Version),
     Keys.triggeredMessage := Watched.clearWhenTriggered,
     Keys.resolvers := {
       val oldResolvers = Keys.resolvers.value
@@ -134,7 +135,7 @@ object BuildImplementation {
       "tooling"
     ),
     ReleaseEarlyKeys.releaseEarlyPublish := BuildDefaults.releaseEarlyPublish.value,
-    Keys.scalacOptions := reasonableCompileOptions,
+    Keys.scalacOptions := reasonableCompileOptions(Keys.scalaVersion.value),
     // Legal requirement: license and notice files must be in the published jar
     Keys.resources in Compile ++= BuildDefaults.getLicense.value,
     Keys.publishArtifact in Test := false,
@@ -152,11 +153,13 @@ object BuildImplementation {
       Keys.publishLocalConfiguration.value.withOverwrite(true)
   )
 
-  final val reasonableCompileOptions = (
-    "-deprecation" :: "-encoding" :: "UTF-8" :: "-feature" :: "-language:existentials" ::
-      "-language:higherKinds" :: "-language:implicitConversions" :: "-unchecked" :: "-Yno-adapted-args" ::
-      "-Ywarn-numeric-widen" :: "-Ywarn-value-discard" :: "-Xfuture" :: Nil
-  )
+  final def reasonableCompileOptions(version: String) = {
+    val base = "-deprecation" :: "-encoding" :: "UTF-8" :: "-feature" :: "-language:existentials" ::
+      "-language:higherKinds" :: "-language:implicitConversions" :: "-unchecked" ::
+      "-Ywarn-numeric-widen" :: "-Ywarn-value-discard"  :: Nil
+
+    if(!version.startsWith("2.13")) "-Yno-adapted-args" :: "-Xfuture" :: base else base
+  }
 
   object BuildDefaults {
     val releaseEarlyPublish: Def.Initialize[Task[Unit]] = Def.task {
