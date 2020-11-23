@@ -182,7 +182,7 @@ class BaseSuite extends TestSuite {
       run: => Unit
   ): Unit = {
     test(name) {
-      Await.result(Task { run }.runAsync(testScheduler), maxDuration)
+      Await.result(Task { run }.runToFuture(testScheduler), maxDuration)
     }
   }
 

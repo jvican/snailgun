@@ -25,11 +25,11 @@ import java.util.concurrent.TimeoutException
 import java.util.concurrent.atomic.AtomicBoolean
 
 import monix.eval.Task
-import monix.execution.misc.NonFatal
 import monix.execution.Scheduler
 
 import scala.concurrent.Await
 import scala.concurrent.duration.FiniteDuration
+import scala.util.control.NonFatal
 
 import com.martiansoftware.nailgun.NGListeningAddress
 import com.martiansoftware.nailgun.NGConstants
@@ -90,7 +90,7 @@ class SnailgunBaseSuite extends BaseSuite {
         server.run()
         serverIsFinished.success(())
       } catch {
-        case monix.execution.misc.NonFatal(t) =>
+        case NonFatal(t) =>
           currentErr.println("Error when starting server")
           t.printStackTrace(currentErr)
           serverIsStarted.failure(t)
@@ -152,7 +152,7 @@ class SnailgunBaseSuite extends BaseSuite {
     }
 
     Task
-      .zip2(serverLogic, runClient)
+      .parZip2(serverLogic, runClient)
       .map(t => t._2)
       .timeout(FiniteDuration(5, TimeUnit.SECONDS))
   }
@@ -216,7 +216,7 @@ class SnailgunBaseSuite extends BaseSuite {
       streams: Streams,
       logger: Logger
   )(op: Client => T): T = {
-    val f = startServer(streams, logger)(op).runAsync(nailgunPool)
+    val f = startServer(streams, logger)(op).runToFuture(nailgunPool)
     try Await.result(f, FiniteDuration(5, TimeUnit.SECONDS))
     catch {
       case e: ExecutionException => throw e.getCause()
