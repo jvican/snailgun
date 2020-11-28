@@ -103,10 +103,10 @@ class SnailgunBaseSuite extends BaseSuite {
 
     val client = new TcpClient(addr, TestPort)
     def clientCancel(t: Option[Throwable]) = Task {
+      t.foreach(t => logger.trace(t))
+
       serverOut.flush()
       serverErr.flush()
-
-      t.foreach(t => logger.trace(t))
 
       logger.debug("Exiting server...")
       val code = client.run(
@@ -154,7 +154,7 @@ class SnailgunBaseSuite extends BaseSuite {
     Task
       .zip2(serverLogic, runClient)
       .map(t => t._2)
-      .timeout(FiniteDuration(5, TimeUnit.SECONDS))
+      .timeout(FiniteDuration(50, TimeUnit.SECONDS))
   }
 
   def prepareTestServer(
@@ -217,7 +217,7 @@ class SnailgunBaseSuite extends BaseSuite {
       logger: Logger
   )(op: Client => T): T = {
     val f = startServer(streams, logger)(op).runAsync(nailgunPool)
-    try Await.result(f, FiniteDuration(5, TimeUnit.SECONDS))
+    try Await.result(f, FiniteDuration(50, TimeUnit.SECONDS))
     catch {
       case e: ExecutionException => throw e.getCause()
       case t: Throwable          => throw t
@@ -231,8 +231,8 @@ class SnailgunBaseSuite extends BaseSuite {
       private val client: Client,
       private val out: ByteArrayOutputStream
   ) {
-    def run(cmd: String, args: Array[String]): Int =
-      client.run(cmd, args, Defaults.cwd, Defaults.env, streams, logger, stop, true)
+    def run(cmd: String, args: Array[String], interactive: Boolean = true): Int =
+      client.run(cmd, args, Defaults.cwd, Defaults.env, streams, logger, stop, interactive)
 
     lazy val output: String = {
       new String(out.toByteArray(), StandardCharsets.UTF_8)

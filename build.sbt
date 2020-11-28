@@ -6,6 +6,7 @@ lazy val `snailgun-core` = project
   .settings(testSuiteSettings)
   .settings(
     fork in run in Compile := true,
+    fork in run in Test := false,
     fork in test in Test := true,
     libraryDependencies ++= Seq(
       Dependencies.jna,
