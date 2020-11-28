@@ -19,15 +19,13 @@ jobs:
         with:
           submodules: true
       - uses: coursier/cache-action@v3
-      - uses: olafurpg/setup-scala@v7
+      - uses: olafurpg/setup-scala@v10
         with:
           java-version: ${{ matrix.jdk }}
       - uses: actions/setup-node@v1
         with:
           node-version: "10.x"
       - name: Set up environment
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: |
           curl -Lo coursier https://git.io/coursier-cli && chmod +x coursier && ./coursier --help
           yarn --help
