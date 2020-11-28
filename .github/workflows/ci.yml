@@ -30,7 +30,6 @@ jobs:
           curl -Lo coursier https://git.io/coursier-cli && chmod +x coursier && ./coursier --help
           yarn --help
           java -version
-          gu install native-image
         shell: bash
       - name: Check formatting
         if: matrix.os != 'windows-latest'
@@ -39,5 +38,11 @@ jobs:
         shell: bash
       - name: Compile and test jsonrpc4s
         run: |
-          sbt "+test" "snailgun-cli/graalvm-native-image:packageBin"
+          sbt "+test"
+        shell: bash
+      - name: Compile to native
+        if: matrix.os != 'windows-latest'
+        run: |
+          gu install native-image
+          sbt "snailgun-cli/graalvm-native-image:packageBin"
         shell: bash
