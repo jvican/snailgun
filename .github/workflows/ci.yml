@@ -35,14 +35,11 @@ jobs:
         if: matrix.os != 'windows-latest'
         run: |
           ./bin/scalafmt --test
-        shell: bash
       - name: Compile and test jsonrpc4s
         run: |
           sbt "+test"
-        shell: bash
       - name: Compile to native
         if: matrix.os != 'windows-latest'
         run: |
           gu install native-image
           sbt "snailgun-cli/graalvm-native-image:packageBin"
-        shell: bash
