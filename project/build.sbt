@@ -1,7 +1,7 @@
 val `snailgun-build` = project
   .in(file("."))
   .settings(
-    scalaVersion := "2.12.8",
+    scalaVersion := "2.12.11",
     addSbtPlugin("com.dwijnand" % "sbt-dynver" % "3.1.0"),
     addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.14"),
     addSbtPlugin("ch.epfl.scala" % "sbt-release-early" % "2.1.1"),

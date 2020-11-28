@@ -1,0 +1,43 @@
+name: Continuous Integration
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        jdk: [graalvm@19.3.0]
+    name: Test ${{ matrix.os }} -- ${{ matrix.jdk }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: coursier/cache-action@v3
+      - uses: olafurpg/setup-scala@v7
+        with:
+          java-version: ${{ matrix.jdk }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+      - name: Set up environment
+        run: |
+          curl -Lo coursier https://git.io/coursier-cli && chmod +x coursier && ./coursier --help
+          yarn --help
+          java -version
+          gu install native-image
+        shell: bash
+      - name: Check formatting
+        if: matrix.os != 'windows-latest'
+        run: |
+          ./bin/scalafmt --test
+        shell: bash
+      - name: Compile and test jsonrpc4s
+        run: |
+          sbt "+test" "snailgun-cli/graalvm-native-image:packageBin"
+        shell: bash

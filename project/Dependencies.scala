@@ -2,15 +2,16 @@ package build
 
 object Dependencies {
   import sbt.librarymanagement.syntax.stringToOrganization
-  val Scala212Version = "2.12.8"
-  val Scala213Version = "2.13.1"
+  val Scala212Version = "2.12.11"
+  val Scala213Version = "2.13.4"
+
   val jnaVersion = "4.5.0"
   val nailgunVersion = "ee3c4343"
   val difflibVersion = "1.3.0"
   val caseAppVersion = "1.2.0-faster-compile-time"
   val shapelessVersion = "2.3.3-lower-priority-coproduct"
 
-  val monix = "io.monix" %% "monix" % "3.2.2"
+  val monix = "io.monix" %% "monix" % "3.3.0"
   val utest = "com.lihaoyi" %% "utest" % "0.7.2"
   val pprint = "com.lihaoyi" %% "pprint" % "0.6.0"
   val jna = "net.java.dev.jna" % "jna" % jnaVersion
