@@ -17,11 +17,9 @@ object BuildPlugin extends AutoPlugin {
   import sbt.plugins.IvyPlugin
   import com.typesafe.sbt.SbtPgp
   import ch.epfl.scala.sbt.release.ReleaseEarlyPlugin
-  import com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin
 
   override def trigger: PluginTrigger = allRequirements
-  override def requires: Plugins =
-    JvmPlugin && ScalafmtCorePlugin && ReleaseEarlyPlugin && SbtPgp && IvyPlugin
+  override def requires: Plugins = JvmPlugin && ReleaseEarlyPlugin && SbtPgp && IvyPlugin
   val autoImport = BuildKeys
 
   override def globalSettings: Seq[Def.Setting[_]] =
