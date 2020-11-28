@@ -23,10 +23,15 @@ lazy val `snailgun-cli` = project
     fork in test in Test := true,
     libraryDependencies ++= List(Dependencies.scopt),
     graalVMNativeImageOptions ++= List(
+      "--no-server",
       "--no-fallback",
-      "-H:+ReportExceptionStackTraces",
       // Required by GraalVM Native Image, otherwise error
-      "--initialize-at-build-time=scala.Function1"
+      "--allow-incomplete-classpath",
+      "--enable-all-security-services",
+      "-H:+PrintClassInitialization",
+      "-H:+ReportExceptionStackTraces",
+      "--report-unsupported-elements-at-runtime",
+      "--initialize-at-build-time=scala.Symbol,scala.Function1,scala.Function2,scala.runtime.StructuralCallSite,scala.runtime.EmptyMethodCache"
     )
   )
 
