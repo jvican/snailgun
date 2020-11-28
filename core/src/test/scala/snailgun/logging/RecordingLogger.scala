@@ -27,7 +27,7 @@ class RecordingLogger(
     val initialMsgs = messages.iterator.asScala
     val msgs = level match {
       case Some(level) => initialMsgs.filter(_._1 == level)
-      case None        => initialMsgs
+      case None => initialMsgs
     }
 
     msgs.map {
@@ -40,7 +40,7 @@ class RecordingLogger(
     if (debug) {
       debugOut match {
         case Some(o) => o.println(s"[$key] $value")
-        case None    => println(s"[$key] $value")
+        case None => println(s"[$key] $value")
       }
     }
 
@@ -65,8 +65,8 @@ class RecordingLogger(
     out.println {
       s"""Logger contains the following messages:
          |${getMessages
-           .map(s => s"[${s._1}] ${s._2}")
-           .mkString("\n  ", "\n  ", "\n")}
+        .map(s => s"[${s._1}] ${s._2}")
+        .mkString("\n  ", "\n  ", "\n")}
      """.stripMargin
     }
   }

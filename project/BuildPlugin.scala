@@ -156,9 +156,9 @@ object BuildImplementation {
   final def reasonableCompileOptions(version: String) = {
     val base = "-deprecation" :: "-encoding" :: "UTF-8" :: "-feature" :: "-language:existentials" ::
       "-language:higherKinds" :: "-language:implicitConversions" :: "-unchecked" ::
-      "-Ywarn-numeric-widen" :: "-Ywarn-value-discard"  :: Nil
+      "-Ywarn-numeric-widen" :: "-Ywarn-value-discard" :: Nil
 
-    if(!version.startsWith("2.13")) "-Yno-adapted-args" :: "-Xfuture" :: base else base
+    if (!version.startsWith("2.13")) "-Yno-adapted-args" :: "-Xfuture" :: base else base
   }
 
   object BuildDefaults {
@@ -190,13 +190,13 @@ object BuildImplementation {
     }
 
     /**
-      * This setting figures out whether the version is a snapshot or not and configures
-      * the source and doc artifacts that are published by the build.
-      *
-      * Snapshot is a term with no clear definition. In this code, a snapshot is a revision
-      * that is dirty, e.g. has time metadata in its representation. In those cases, the
-      * build will not publish doc and source artifacts by any of the publishing actions.
-      */
+     * This setting figures out whether the version is a snapshot or not and configures
+     * the source and doc artifacts that are published by the build.
+     *
+     * Snapshot is a term with no clear definition. In this code, a snapshot is a revision
+     * that is dirty, e.g. has time metadata in its representation. In those cases, the
+     * build will not publish doc and source artifacts by any of the publishing actions.
+     */
     def publishDocAndSourceArtifact(
         info: Option[GitDescribeOutput],
         version: String

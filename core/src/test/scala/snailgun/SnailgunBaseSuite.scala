@@ -204,14 +204,14 @@ class SnailgunBaseSuite extends BaseSuite {
   }
 
   /**
-    * Starts a Nailgun server, creates a snailgun client and executes operations
-    * with that client. The server is killed when the client exits.
-    *
-    * @param streams    The user-defined streams.
-    * @param log        The logger instance for the test run.
-    * @param op         A function that will receive the instantiated Client.
-    * @return The result of executing `op` on the client.
-    */
+   * Starts a Nailgun server, creates a snailgun client and executes operations
+   * with that client. The server is killed when the client exits.
+   *
+   * @param streams    The user-defined streams.
+   * @param log        The logger instance for the test run.
+   * @param op         A function that will receive the instantiated Client.
+   * @return The result of executing `op` on the client.
+   */
   def withRunningServer[T](
       streams: Streams,
       logger: Logger
@@ -220,7 +220,7 @@ class SnailgunBaseSuite extends BaseSuite {
     try Await.result(f, FiniteDuration(5, TimeUnit.SECONDS))
     catch {
       case e: ExecutionException => throw e.getCause()
-      case t: Throwable          => throw t
+      case t: Throwable => throw t
     } finally f.cancel()
   }
 

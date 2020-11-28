@@ -30,16 +30,16 @@ import scala.util.Success
 import scala.util.control.NonFatal
 
 /**
-  * An implementation of the nailgun protocol in Scala.
-  *
-  * It follows http://www.martiansoftware.com/nailgun/protocol.html and has
-  * been slightly inspired in the C and Python clients. The implementation has
-  * been simplified more than these two and optimized for readability.
-  *
-  * The protocol is designed to be used by different instances of
-  * [[snailgun.Client]] implementing different communication mechanisms (e.g.
-  * TCP / Unix Domain sockets / Windows Named Pipes).
-  */
+ * An implementation of the nailgun protocol in Scala.
+ *
+ * It follows http://www.martiansoftware.com/nailgun/protocol.html and has
+ * been slightly inspired in the C and Python clients. The implementation has
+ * been simplified more than these two and optimized for readability.
+ *
+ * The protocol is designed to be used by different instances of
+ * [[snailgun.Client]] implementing different communication mechanisms (e.g.
+ * TCP / Unix Domain sockets / Windows Named Pipes).
+ */
 class Protocol(
     streams: Streams,
     cwd: Path,
@@ -91,9 +91,7 @@ class Protocol(
       logger.debug(s"Sending arguments '${cmdArgs.mkString(" ")}' to Nailgun server")
       cmdArgs.foreach(sendChunk(ChunkTypes.Argument, _, out))
       logger.debug("Sending environment variables to Nailgun server")
-      allEnvironment.foreach(
-        kv => sendChunk(ChunkTypes.Environment, s"${kv._1}=${kv._2}", out)
-      )
+      allEnvironment.foreach(kv => sendChunk(ChunkTypes.Environment, s"${kv._1}=${kv._2}", out))
       logger.debug(s"Sending working directory $absoluteCwd to Nailgun server")
       sendChunk(ChunkTypes.Directory, absoluteCwd, out)
       logger.debug(s"Sending command to $cmd Nailgun server")
@@ -119,7 +117,7 @@ class Protocol(
               printException(error)
             }
           case Action.Print(bytes, out) => out.write(bytes)
-          case Action.SendStdin         => sendStdinSemaphore.release()
+          case Action.SendStdin => sendStdinSemaphore.release()
         }
       }
     } catch {
@@ -199,7 +197,7 @@ class Protocol(
     }
 
     readAction match {
-      case Success(action)    => action
+      case Success(action) => action
       case Failure(exception) => Action.ExitForcefully(exception)
     }
   }
@@ -271,12 +269,12 @@ class Protocol(
   }
 
   /**
-    * Swallows any exception thrown by the closure [[f]] if client exits before
-    * the timeout of [[Protocol.Time.SendThreadWaitTerminationMillis]].
-    *
-    * Ignoring exceptions in this scenario makes sense (exception could have
-    * been caught by server finishing connection with client concurrently).
-    */
+   * Swallows any exception thrown by the closure [[f]] if client exits before
+   * the timeout of [[Protocol.Time.SendThreadWaitTerminationMillis]].
+   *
+   * Ignoring exceptions in this scenario makes sense (exception could have
+   * been caught by server finishing connection with client concurrently).
+   */
   private def swallowExceptionsIfServerFinished(f: => Unit): Unit = {
     try f
     catch {
