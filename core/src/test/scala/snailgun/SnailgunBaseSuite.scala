@@ -154,7 +154,7 @@ class SnailgunBaseSuite extends BaseSuite {
     Task
       .parZip2(serverLogic, runClient)
       .map(t => t._2)
-      .timeout(FiniteDuration(5, TimeUnit.SECONDS))
+      .timeout(FiniteDuration(25, TimeUnit.SECONDS))
   }
 
   def prepareTestServer(
