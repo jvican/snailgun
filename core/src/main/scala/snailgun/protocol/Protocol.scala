@@ -1,6 +1,5 @@
 package snailgun.protocol
 
-import snailgun.Terminal
 import snailgun.logging.Logger
 
 import java.net.Socket
@@ -56,19 +55,14 @@ class Protocol(
 
   val NailgunFileSeparator = java.io.File.separator
   val NailgunPathSeparator = java.io.File.pathSeparator
-  def allEnvironment: Map[String, String] = {
-    def interactive(fd: Int): String =
-      Integer.toString(Terminal.hasTerminalAttached(fd))
-    def skipIfNative(f: => String) =
-      if (!interactiveSession || System.getProperty("java.vm.name") == "Substrate VM") "0" else f
-    environment ++ Map(
+  def allEnvironment: Map[String, String] =
+    environment ++ Seq(
       "NAILGUN_FILESEPARATOR" -> NailgunFileSeparator,
       "NAILGUN_PATHSEPARATOR" -> NailgunPathSeparator,
-      "NAILGUN_TTY_0" -> skipIfNative(interactive(0)),
-      "NAILGUN_TTY_1" -> skipIfNative(interactive(1)),
-      "NAILGUN_TTY_2" -> skipIfNative(interactive(2))
+      "NAILGUN_TTY_0" -> streams.inIsATty.toString,
+      "NAILGUN_TTY_1" -> streams.outIsATty.toString,
+      "NAILGUN_TTY_2" -> streams.errIsATty.toString
     )
-  }
 
   def sendCommand(
       cmd: String,

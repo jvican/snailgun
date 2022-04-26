@@ -11,4 +11,11 @@ import java.io.OutputStream
  * behaviour and reporting errors. The logger can be backed by some of these user-defined streams
  * but it isn't a requirement.
  */
-case class Streams(in: InputStream, out: OutputStream, err: OutputStream)
+final case class Streams(
+    in: InputStream,
+    out: OutputStream,
+    err: OutputStream,
+    inIsATty: Int = 0,
+    outIsATty: Int = 0,
+    errIsATty: Int = 0
+)
