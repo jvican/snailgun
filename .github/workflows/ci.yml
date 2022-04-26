@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - "v*"
   pull_request:
 
 jobs:
@@ -12,34 +14,91 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        jdk: [graalvm-ce-java11@20.3.0]
-    name: Test ${{ matrix.os }} -- ${{ matrix.jdk }}
+    name: Test ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: true
-      - uses: coursier/cache-action@v3
-      - uses: olafurpg/setup-scala@v10
+          fetch-depth: 0
+      - uses: coursier/cache-action@v6.3
+      - uses: coursier/setup-action@v1.2.0-M3
         with:
-          java-version: ${{ matrix.jdk }}
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "10.x"
-      - name: Set up environment
-        run: |
-          curl -Lo coursier https://git.io/coursier-cli && chmod +x coursier && ./coursier --help
-          yarn --help
-          java -version
-        shell: bash
-      - name: Check formatting
-        if: matrix.os != 'windows-latest'
-        run: |
-          ./bin/scalafmt --test
-      - name: Compile and test jsonrpc4s
-        run: |
-          sbt "+test"
+          jvm: 8
+      - name: Compile and test
+        run: ./mill __.test
       - name: Compile to native
-        if: matrix.os != 'windows-latest'
-        run: |
-          gu install native-image
-          sbt "snailgun-cli/graalvm-native-image:packageBin"
+        run: ./mill show nativeImage
+      - name: Copy JVM launcher
+        run: ./mill -i ci.copyJvmLauncher artifacts/
+        if: runner.os == 'Linux'
+      - name: Copy launcher
+        run: ./mill -i ci.copyLauncher artifacts/
+      - uses: actions/upload-artifact@v3
+        with:
+          name: launchers
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 2
+
+  format:
+    runs-on: ubuntu-latest
+    name: Format
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+      - uses: coursier/cache-action@v6.3
+      - uses: coursier/setup-action@v1.2.0-M3
+        with:
+          jvm: 8
+          apps: scalafmt
+      - name: Check formatting
+        run: scalafmt --test
+
+  publish:
+    needs: [format, test]
+    runs-on: ubuntu-latest
+    name: Publish
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+      - uses: coursier/cache-action@v6.3
+      - uses: coursier/setup-action@v1.2.0-M3
+        with:
+          jvm: 8
+      - name: GPG setup
+        run: .github/scripts/gpg-setup.sh
+        env:
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+      - name: Publish
+        run: ./mill ci.publishSonatype __.publishArtifacts
+        env:
+          PGP_PASSWORD: ${{ secrets.PGP_PASSPHRASE }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+
+  launchers:
+    needs: [format, test]
+    name: Upload launchers
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+        fetch-depth: 0
+    - uses: coursier/cache-action@v6.3
+    - uses: coursier/setup-action@v1.2.0-M3
+      with:
+        jvm: 8
+    - uses: actions/download-artifact@v3
+      with:
+        name: launchers
+        path: artifacts/
+    - run: ./mill -i ci.uploadLaunchers artifacts/
+      env:
+        UPLOAD_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
