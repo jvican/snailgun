@@ -5,11 +5,11 @@ import org.slf4j.{Marker, Logger => Slf4jLogger}
 /**
  * Defines a slf4j-compliant logger wrapping Bloop logging utils.
  *
- * This slf4j interface is necessary to be compatible with third-party libraries
- * like lsp4s. It only intends to cover the basic functionality and it does not
- * support slf4j markers.
+ * This slf4j interface is necessary to be compatible with third-party libraries like lsp4s. It only
+ * intends to cover the basic functionality and it does not support slf4j markers.
  *
- * @param logger A logger interface.
+ * @param logger
+ *   A logger interface.
  */
 final class Slf4jAdapter[L <: Logger](logger: L) extends Slf4jLogger {
   def underlying: L = logger

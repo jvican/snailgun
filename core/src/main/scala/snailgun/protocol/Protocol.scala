@@ -32,13 +32,12 @@ import scala.util.control.NonFatal
 /**
  * An implementation of the nailgun protocol in Scala.
  *
- * It follows http://www.martiansoftware.com/nailgun/protocol.html and has
- * been slightly inspired in the C and Python clients. The implementation has
- * been simplified more than these two and optimized for readability.
+ * It follows http://www.martiansoftware.com/nailgun/protocol.html and has been slightly inspired in
+ * the C and Python clients. The implementation has been simplified more than these two and
+ * optimized for readability.
  *
- * The protocol is designed to be used by different instances of
- * [[snailgun.Client]] implementing different communication mechanisms (e.g.
- * TCP / Unix Domain sockets / Windows Named Pipes).
+ * The protocol is designed to be used by different instances of [[snailgun.Client]] implementing
+ * different communication mechanisms (e.g. TCP / Unix Domain sockets / Windows Named Pipes).
  */
 class Protocol(
     streams: Streams,
@@ -269,11 +268,11 @@ class Protocol(
   }
 
   /**
-   * Swallows any exception thrown by the closure [[f]] if client exits before
-   * the timeout of [[Protocol.Time.SendThreadWaitTerminationMillis]].
+   * Swallows any exception thrown by the closure [[f]] if client exits before the timeout of
+   * [[Protocol.Time.SendThreadWaitTerminationMillis]].
    *
-   * Ignoring exceptions in this scenario makes sense (exception could have
-   * been caught by server finishing connection with client concurrently).
+   * Ignoring exceptions in this scenario makes sense (exception could have been caught by server
+   * finishing connection with client concurrently).
    */
   private def swallowExceptionsIfServerFinished(f: => Unit): Unit = {
     try f

@@ -65,8 +65,8 @@ class RecordingLogger(
     out.println {
       s"""Logger contains the following messages:
          |${getMessages
-        .map(s => s"[${s._1}] ${s._2}")
-        .mkString("\n  ", "\n  ", "\n")}
+          .map(s => s"[${s._1}] ${s._2}")
+          .mkString("\n  ", "\n  ", "\n")}
      """.stripMargin
     }
   }
